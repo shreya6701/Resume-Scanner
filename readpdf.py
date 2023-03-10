@@ -84,28 +84,28 @@ def rank_resumes():
     
     return ranked_resumes
 
-# # job description
-# jd_document = docx.Document("JD_Network Support.docx")
-# doc_text = '\n\n'.join(
-#     paragraph.text for paragraph in jd_document.paragraphs
-# )
+# job description
+jd_document = docx.Document("JD_Network Support.docx")
+doc_text = '\n\n'.join(
+    paragraph.text for paragraph in jd_document.paragraphs
+)
 
-# doc_text=doc_text.lower()
+doc_text=doc_text.lower()
 
 sw_nltk = stopwords.words('english')
 
-# jd_words = [word for word in doc_text.split() if word.lower() not in sw_nltk]
-# new_jdtext = " ".join(jd_words)
-# # print("JD length: ", len(new_jdtext.split()))
+jd_words = [word for word in doc_text.split() if word.lower() not in sw_nltk]
+new_jdtext = " ".join(jd_words)
+# print("JD length: ", len(new_jdtext.split()))
 
 
-# jd_imp_keywords = get_keywords(new_jdtext)
+jd_imp_keywords = get_keywords(new_jdtext)
 
-job_desc = input("Enter the important keywords from job descrption, separated by spaces: ")
-jd_imp_keywords = job_desc.split()
-print("Important keywords:", jd_imp_keywords)
+# job_desc = input("Enter the important keywords from job descrption, separated by spaces: ")
+# jd_imp_keywords = job_desc.split()
+# print("Important keywords:", jd_imp_keywords)
 
-jd_imp_keywords=[e.lower() for e in jd_imp_keywords]
+# jd_imp_keywords=[e.lower() for e in jd_imp_keywords]
 # file2=nlp(new_jdtext)
 # print(file2)
 
@@ -160,7 +160,7 @@ for i in os.listdir(directory):
     len_new_text=len(new_text.split())
     # print("Resume " + i + " length: ", len_new_text)
  
-    similarity = get_similarity(new_text, job_desc)
+    similarity = get_similarity(new_text, new_jdtext)
     print(similarity)
 
     resume_tokens = nltk.word_tokenize(new_text)
@@ -175,3 +175,5 @@ for i in os.listdir(directory):
 ranked_resumes = sorted(ranked_resumes, key=lambda x: x['weighted_score'], reverse=True)
 print(ranked_resumes)
 
+with open('Output.txt', 'wt') as f:
+    print(ranked_resumes,file=f)
